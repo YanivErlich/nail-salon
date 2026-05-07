@@ -10,6 +10,7 @@ import FAQ from './components/FAQ'
 import Booking from './components/Booking'
 import Footer from './components/Footer'
 import Accessibility from './components/Accessibility'
+import WhatsAppButton from './components/WhatsAppButton'
 
 export default function App() {
   const [lang, setLang] = useState('he')
@@ -32,6 +33,7 @@ export default function App() {
       <FAQ t={t} />
       <Footer t={t} />
       <Accessibility t={t} />
+      <WhatsAppButton />
     </>
   )
 }
