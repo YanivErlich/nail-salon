@@ -1,0 +1,30 @@
+.section { padding: 6rem 3rem; }
+.inner { max-width: 900px; margin: 0 auto; text-align: center; }
+@media (max-width: 768px) { .section { padding: 4.5rem 1.5rem; } }
+.header { margin-bottom: 1rem; }
+.label {
+  font-size: 0.62rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--rose-light); display: block; margin-bottom: 1rem; font-weight: 300;
+}
+.title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; color: var(--white);
+}
+.grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem; margin-top: 3.5rem;
+}
+.card {
+  padding: 2.2rem 1.8rem; border: 1px solid rgba(240,179,192,0.15);
+  background: var(--dark-3); text-align: left;
+}
+.quote {
+  font-family: 'Cormorant Garamond', serif; font-size: 3.5rem;
+  color: var(--rose); opacity: 0.35; line-height: 0.5; margin-bottom: 1rem; display: block;
+}
+.stars { color: var(--rose-light); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 0.8rem; }
+.text {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 300;
+  font-style: italic; line-height: 1.8; color: var(--cream); margin-bottom: 1.4rem;
+}
+.name { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose-light); font-weight: 400; }

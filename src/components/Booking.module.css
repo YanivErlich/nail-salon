@@ -1,0 +1,198 @@
+.section { padding: 6rem 3rem; background: var(--dark-3); }
+.inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center; max-width: 1100px; margin: 0 auto;
+}
+@media (max-width: 768px) { .inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+@media (max-width: 480px) { .section { padding: 4rem 1.25rem; } .contacts li { flex-direction: column; align-items: flex-start; } }
+
+.label {
+  font-size: 0.72rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--rose-light); display: block; margin-bottom: 1rem; font-weight: 300;
+}
+.title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 300;
+  color: var(--white); margin-bottom: 1.2rem;
+}
+.info p { font-size: 0.95rem; font-weight: 300; color: var(--cream-muted); line-height: 2; margin-bottom: 2rem; }
+
+.contacts { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.contacts li { display: flex; align-items: flex-start; gap: 1rem; font-size: 0.92rem; font-weight: 300; color: var(--cream-muted); }
+.icon { font-size: 0.9rem; color: var(--rose); flex-shrink: 0; margin-top: 1px; }
+.contacts li div { display: flex; flex-direction: column; gap: 2px; }
+.contacts strong {
+  font-size: 0.76rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--rose-light); font-weight: 400;
+}
+
+
+.map {
+  margin-top: 2rem;
+  border: 1px solid rgba(240,179,192,0.18);
+  overflow: hidden;
+}
+.map iframe {
+  width: 100%;
+  height: 220px;
+  border: none;
+  display: block;
+  filter: grayscale(30%) invert(5%);
+}
+
+.form { display: flex; flex-direction: column; gap: 1rem; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
+.group { display: flex; flex-direction: column; gap: 6px; position: relative; }
+.fieldLabel {
+  font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--cream-muted); font-weight: 400;
+}
+.input {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(240,179,192,0.22);
+  color: var(--cream); padding: 0.85rem 1rem;
+  font-family: 'Jost', sans-serif; font-size: 0.95rem; font-weight: 300;
+  outline: none; transition: border-color 0.3s; width: 100%; resize: vertical;
+}
+.input::placeholder { color: rgba(201,160,173,0.45); }
+.input:focus { border-color: var(--rose-light); }
+.input option { background: var(--dark-2); }
+.inputError { border-color: #e05555 !important; }
+.errorMsg { font-size: 0.72rem; color: #e07070; letter-spacing: 0.05em; }
+
+.priceBreakdown {
+  background: rgba(240,179,192,0.04);
+  border: 1px solid rgba(240,179,192,0.18);
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--cream-muted);
+}
+.priceTotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--rose-light);
+  border-top: 1px solid rgba(240,179,192,0.18);
+  padding-top: 0.35rem;
+  margin-top: 0.2rem;
+}
+
+.dropdownTrigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: start;
+  color: var(--cream-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dropdownArrow {
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  margin-inline-start: 0.5rem;
+}
+.dropdownArrow.open { transform: rotate(180deg); }
+
+.dropdownPanel {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  background: var(--dark-2);
+  border: 1px solid rgba(240,179,192,0.28);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 1rem;
+  color: var(--cream-muted);
+  font-size: 0.92rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  user-select: none;
+  border-bottom: 1px solid rgba(240,179,192,0.08);
+}
+.dropdownItem:last-child { border-bottom: none; }
+.dropdownItem input { display: none; }
+.dropdownItemText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+}
+.dropdownItemPrice {
+  color: var(--rose-light);
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+.dropdownItem:hover { background: rgba(240,179,192,0.06); color: var(--cream); }
+.dropdownItem.checked { color: var(--white); background: rgba(240,179,192,0.05); }
+
+.checkMark {
+  width: 13px; height: 13px; flex-shrink: 0;
+  border: 1px solid rgba(240,179,192,0.35);
+  position: relative; transition: background 0.2s, border-color 0.2s;
+}
+.dropdownItem.checked .checkMark { background: var(--rose); border-color: var(--rose); }
+.dropdownActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(240,179,192,0.15);
+}
+.dropdownAccept, .dropdownClear {
+  padding: 0.6rem 1rem;
+  background: none;
+  border: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+.dropdownAccept {
+  color: var(--rose-light);
+  border-right: 1px solid rgba(240,179,192,0.15);
+}
+.dropdownAccept:hover { background: rgba(240,179,192,0.08); color: var(--white); }
+.dropdownClear {
+  color: var(--cream-muted);
+}
+.dropdownClear:hover { background: rgba(240,179,192,0.05); color: var(--rose-light); }
+
+.dropdownItem.checked .checkMark::after {
+  content: '';
+  position: absolute;
+  left: 3px; top: 0px;
+  width: 4px; height: 8px;
+  border: 2px solid var(--white);
+  border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
+
+.submit {
+  margin-top: 0.5rem; padding: 1rem 2rem; background: var(--rose); border: none;
+  color: var(--white); font-size: 0.82rem; letter-spacing: 0.3em;
+  text-transform: uppercase; font-weight: 500; transition: background 0.3s, transform 0.15s;
+}
+.submit:hover { background: var(--mauve-mid); }
+.submit:active { transform: scale(0.98); }
+.submit.success { background: var(--mauve); color: var(--rose-pale); }

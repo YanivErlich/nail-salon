@@ -1,0 +1,62 @@
+.dividerWrap { padding: 2rem 3rem; background: var(--dark-3); }
+.divider {
+  display: flex; align-items: center; gap: 1.2rem; justify-content: center;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; max-width: 140px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--rose));
+}
+.divider::after { background: linear-gradient(to left, transparent, var(--rose)); }
+.diamond { width: 6px; height: 6px; background: var(--rose); transform: rotate(45deg); }
+
+.footer {
+  background: rgba(0,0,0,0.55); border-top: 1px solid rgba(240,179,192,0.12);
+  padding: 2.5rem 3rem; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+@media (max-width: 640px) {
+  .footer { flex-direction: column; align-items: flex-start; padding: 1.8rem 1.25rem; }
+  .links { flex-wrap: wrap; gap: 0.85rem; }
+  .socials { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600;
+  color: var(--rose-light); letter-spacing: 0.15em; text-transform: uppercase;
+}
+.copy { font-size: 0.68rem; letter-spacing: 0.1em; color: var(--cream-muted); font-weight: 300; }
+.links { display: flex; gap: 1.8rem; list-style: none; }
+.links a {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream-muted); text-decoration: none; transition: color 0.3s;
+}
+.links a:hover { color: var(--rose-light); }
+
+.socialIcon { display: inline-flex; width: 1rem; height: 1rem; margin-right: 0.55rem; fill: currentColor; }
+
+.socials a { display: inline-flex; align-items: center; gap: 0.55rem;
+  font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream-muted); text-decoration: none; padding: 0.85rem 1rem;
+  border: 1px solid rgba(240,179,192,0.18); border-radius: 999px;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+
+.socials a:hover {
+  color: var(--white);
+  border-color: var(--rose-light);
+  background: rgba(240,179,192,0.08);
+}
+
+.socials {
+  display: flex; gap: 1.4rem; align-items: center;
+}
+.socials a {
+  font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream-muted); text-decoration: none; padding: 0.75rem 1rem;
+  border: 1px solid rgba(240,179,192,0.18);
+  border-radius: 999px; transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+.socials a:hover {
+  color: var(--white);
+  border-color: var(--rose-light);
+  background: rgba(240,179,192,0.08);
+}
