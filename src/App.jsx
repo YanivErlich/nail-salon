@@ -11,6 +11,7 @@ import Booking from './components/Booking'
 import Footer from './components/Footer'
 import Accessibility from './components/Accessibility'
 import WhatsAppButton from './components/WhatsAppButton'
+import BackToTop from './components/BackToTop'
 
 export default function App() {
   const [lang, setLang] = useState('he')
@@ -34,6 +35,7 @@ export default function App() {
       <Footer t={t} />
       <Accessibility t={t} />
       <WhatsAppButton />
+      <BackToTop />
     </>
   )
 }

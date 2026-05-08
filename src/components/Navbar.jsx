@@ -35,10 +35,15 @@ const SOCIALS = [
 export default function Navbar({ t, lang, setLang }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80)
-    window.addEventListener('scroll', onScroll)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 80)
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(total > 0 ? (window.scrollY / total) * 100 : 0)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -46,6 +51,7 @@ export default function Navbar({ t, lang, setLang }) {
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
+      <div className={styles.progressBar} style={{ width: `${progress}%` }} />
       <button className={styles.menuBtn} onClick={() => setMenuOpen(o => !o)} aria-label="Toggle menu">
         ☰
       </button>

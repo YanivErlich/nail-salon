@@ -13,6 +13,17 @@
 }
 .scrolled { background: rgba(28,10,19,0.98); }
 
+.progressBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--rose), var(--rose-light));
+  transition: width 0.1s linear;
+  z-index: 101;
+  border-radius: 0 1px 1px 0;
+}
+
 .menuBtn {
   display: none;
   background: none;
@@ -40,7 +51,7 @@
   color: var(--rose-light); letter-spacing: 0.12em; text-transform: uppercase; line-height: 1;
 }
 .logoSlogan {
-  font-size: 0.72rem; font-weight: 300;
+  font-size: 0.84rem; font-weight: 300;
   letter-spacing: 0.38em; text-transform: uppercase; color: var(--cream-muted);
 }
 
@@ -252,7 +263,7 @@
     font-size: 1.65rem;
   }
   .logoSlogan {
-    font-size: 0.54rem;
+    font-size: 0.65rem;
   }
   :global([dir="rtl"]) .menuBtn {
     position: absolute;

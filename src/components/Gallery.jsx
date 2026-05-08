@@ -2,14 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import useReveal from '../hooks/useReveal'
 import styles from './Gallery.module.css'
 
-import g1 from '../assets/gallery/gallery1.jpeg'
-import g2 from '../assets/gallery/gallery2.jpeg'
-import g3 from '../assets/gallery/gallery3.jpeg'
 import g28 from '../assets/gallery/gallery28.png'
 import g29 from '../assets/gallery/gallery29.png'
 
+import g3 from '../assets/gallery/gallery3.jpeg'
 import g6 from '../assets/gallery/gallery6.jpeg'
-import g7 from '../assets/gallery/gallery7.jpeg'
 import g8 from '../assets/gallery/gallery8.jpeg'
 import g9 from '../assets/gallery/gallery9.jpeg'
 import g10 from '../assets/gallery/gallery10.jpeg'
@@ -31,14 +28,12 @@ import g27 from '../assets/gallery/gallery27.jpeg'
 
 const ALL_PHOTOS = [
   { src: g6,  cat: 'manicure' },
-  { src: g3,  cat: 'manicure' },
   { src: g28, cat: 'manicure' },
   { src: g29, cat: 'manicure' },
 
+  { src: g3,  cat: 'pedicure' },
   { src: g26, cat: 'pedicure' },
   { src: g27, cat: 'pedicure' },
-  { src: g2,  cat: 'building' },
-  { src: g7,  cat: 'building' },
   { src: g8,  cat: 'building' },
   { src: g9,  cat: 'building' },
   { src: g10, cat: 'building' },
@@ -54,7 +49,6 @@ const ALL_PHOTOS = [
   { src: g20, cat: 'building' },
   { src: g21, cat: 'building' },
   { src: g22, cat: 'building' },
-  { src: g1,  cat: 'beforeAfter' },
 ]
 
 const CATEGORIES = ['manicure', 'pedicure', 'building', 'beforeAfter']
@@ -126,7 +120,7 @@ export default function Gallery({ t }) {
           {displayed.map((p, i) => (
             <div
               key={`${activeCategory}-${i}`}
-              className={styles.item}
+              className={`${styles.item} ${styles.skeleton}`}
               onClick={() => setLightbox(i)}
               role="button"
               tabIndex={0}
@@ -158,6 +152,20 @@ export default function Gallery({ t }) {
           }}
         >
           <button className={styles.lbClose} onClick={() => setLightbox(null)} aria-label="Close">✕</button>
+          <button
+            className={styles.lbDelete}
+            onClick={e => {
+              e.stopPropagation()
+              const src = displayed[lightbox]?.src
+              const filename = src?.split('/').pop()
+              const next = displayed.filter((_, i) => i !== lightbox)
+              setDisplayed(next)
+              setLightbox(next.length === 0 ? null : Math.min(lightbox, next.length - 1))
+              console.log(`Removed: ${filename}`)
+            }}
+            aria-label="Remove photo"
+            title="Remove from gallery"
+          >🗑</button>
           <button
             className={`${styles.lbArrow} ${styles.lbPrev}`}
             onClick={e => { e.stopPropagation(); setLightbox(i => (i - 1 + displayed.length) % displayed.length) }}
