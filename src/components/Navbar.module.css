@@ -254,6 +254,7 @@
   :global([dir="rtl"]) .logoName {
     font-size: 1.3rem;
     letter-spacing: 0.02em;
+    white-space: nowrap;
   }
 }
 
