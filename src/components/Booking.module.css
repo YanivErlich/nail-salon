@@ -190,11 +190,23 @@
   transform: rotate(45deg);
 }
 
+.closedMsg {
+  font-size: 0.82rem; color: #e07070; letter-spacing: 0.05em;
+  border: 1px solid rgba(224,112,112,0.3); padding: 0.65rem 1rem;
+  background: rgba(224,112,112,0.06);
+}
+.saturdayMsg {
+  font-size: 0.82rem; color: var(--rose-light); letter-spacing: 0.05em;
+  border: 1px solid rgba(240,179,192,0.3); padding: 0.65rem 1rem;
+  background: rgba(240,179,192,0.06);
+}
+
 .submit {
   margin-top: 0.5rem; padding: 1rem 2rem; background: var(--rose); border: none;
   color: var(--white); font-size: 0.82rem; letter-spacing: 0.3em;
   text-transform: uppercase; font-weight: 500; transition: background 0.3s, transform 0.15s;
 }
-.submit:hover { background: var(--mauve-mid); }
-.submit:active { transform: scale(0.98); }
+.submit:hover:not(:disabled) { background: var(--mauve-mid); }
+.submit:active:not(:disabled) { transform: scale(0.98); }
+.submit:disabled { background: rgba(212,96,122,0.35); cursor: not-allowed; }
 .submit.success { background: var(--mauve); color: var(--rose-pale); }

@@ -8,12 +8,39 @@ const parsePrice = (str) => {
   return { min: parts[0], max: parts[parts.length - 1] }
 }
 
-const TIME_SLOTS = Array.from({ length: 23 }, (_, i) => {
-  const totalMinutes = 9 * 60 + i * 30
-  const h = Math.floor(totalMinutes / 60).toString().padStart(2, '0')
-  const m = (totalMinutes % 60).toString().padStart(2, '0')
-  return `${h}:${m}`
-})
+const applyWeekendSurcharge = ({ min, max }) => {
+  const aMin = Math.round(min * 1.3)
+  const aMax = Math.round(max * 1.3)
+  return aMin === aMax ? `₪ ${aMin}` : `₪ ${aMin}–${aMax}`
+}
+
+const generateSlots = (startH, startM, endH, endM) => {
+  const slots = []
+  let t = startH * 60 + startM
+  const end = endH * 60 + endM
+  while (t < end) {
+    slots.push(`${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`)
+    t += 30
+  }
+  return slots
+}
+
+// 0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat
+const SLOTS_BY_DAY = [
+  generateSlots(8, 0, 22, 0),   // Sun
+  [],                             // Mon - closed
+  generateSlots(10, 0, 17, 0),  // Tue - last slot 16:30, finish by 17:00
+  [],                             // Wed - closed
+  generateSlots(10, 0, 22, 0),  // Thu
+  generateSlots(8, 0, 22, 0),   // Fri
+  generateSlots(8, 0, 22, 0),   // Sat
+]
+
+const getDayOfWeek = (dateStr) => {
+  if (!dateStr) return -1
+  const [y, m, d] = dateStr.split('-').map(Number)
+  return new Date(y, m - 1, d).getDay()
+}
 
 export default function Booking({ t }) {
   const infoRef = useReveal()
@@ -25,16 +52,22 @@ export default function Booking({ t }) {
   const [selectedDate, setSelectedDate] = useState('')
 
   const today = new Date().toISOString().split('T')[0]
+  const selectedDay = getDayOfWeek(selectedDate)
+  const closedDay = selectedDay === 1 || selectedDay === 3
+  const saturday = selectedDay === 6
 
   const slotsWithState = () => {
-    if (selectedDate !== today) return TIME_SLOTS.map(slot => ({ slot, past: false }))
+    if (selectedDay < 0) return []
+    const slots = SLOTS_BY_DAY[selectedDay] || []
+    if (selectedDate !== today) return slots.map(slot => ({ slot, past: false }))
     const now = new Date()
     const currentMinutes = now.getHours() * 60 + now.getMinutes()
-    return TIME_SLOTS.map(slot => {
+    return slots.map(slot => {
       const [h, m] = slot.split(':').map(Number)
       return { slot, past: h * 60 + m <= currentMinutes }
     })
   }
+
   const dropdownRef = useRef(null)
 
   const toggleService = (svc) =>
@@ -55,6 +88,7 @@ export default function Booking({ t }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    if (closedDay) return
     const data = new FormData(e.target)
     const name  = data.get('name')
     const phone = data.get('phone')
@@ -63,38 +97,42 @@ export default function Booking({ t }) {
       setPhoneError(true)
       return
     }
-    const date  = data.get('date')
-    const time  = data.get('time')
-    const note  = data.get('note')
+    const date = data.get('date')
+    const time = data.get('time')
+    const note = data.get('note')
 
     const [y, m, d] = date.split('-')
     const formattedDate = `${d}/${m}/${y}`
 
     const pricedServices = selectedServices.map(svc => {
       const i = t.svcOptions.indexOf(svc)
-      return `  • ${svc} — ${i >= 0 ? t.svcPrices[i] : ''}`
+      const base = i >= 0 ? parsePrice(t.svcPrices[i]) : null
+      const priceStr = base ? (saturday ? applyWeekendSurcharge(base) : t.svcPrices[i]) : ''
+      return `  • ${svc} — ${priceStr}`
     })
 
     const totals = selectedServices.map(svc => {
       const i = t.svcOptions.indexOf(svc)
       return i >= 0 ? parsePrice(t.svcPrices[i]) : null
     }).filter(Boolean)
-    const totalMin = totals.reduce((s, p) => s + p.min, 0)
-    const totalMax = totals.reduce((s, p) => s + p.max, 0)
+    const multiplier = saturday ? 1.3 : 1
+    const totalMin = Math.round(totals.reduce((s, p) => s + p.min, 0) * multiplier)
+    const totalMax = Math.round(totals.reduce((s, p) => s + p.max, 0) * multiplier)
     const totalStr = totalMin === totalMax ? `₪ ${totalMin}` : `₪ ${totalMin}–${totalMax}`
 
     const msg = [
-      `Привет, Полина! 👋 Хочу записаться:`,
+      `היי פולינה! 👋 אני רוצה לקבוע תור:`,
       ``,
-      `👤 Имя: ${name}`,
-      `📱 Телефон: ${phone}`,
-      `📅 Дата: ${formattedDate}`,
-      `🕐 Время: ${time}`,
+      `👤 שם: ${name}`,
+      `📱 טלפון: ${phone}`,
+      `📅 תאריך: ${formattedDate}`,
+      `🕐 שעה: ${time}`,
       ``,
-      `💅 Услуги:`,
+      `💅 שירותים:`,
       ...pricedServices,
-      `💰 Итого: ${totalStr}`,
-      note ? `\n📝 Примечание: ${note}` : null,
+      saturday ? `⚠️ שבת: תוספת 30%` : null,
+      `💰 סה״כ: ${totalStr}`,
+      note ? `\n📝 הערה: ${note}` : null,
     ].filter(Boolean).join('\n')
 
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, '_blank')
@@ -112,7 +150,15 @@ export default function Booking({ t }) {
           <p>{t.bookSub}</p>
           <ul className={styles.contacts}>
             <li><span className={styles.icon}>✦</span><div><strong>{t.addrLabel}</strong>{t.address}</div></li>
-            <li><span className={styles.icon}>✦</span><div><strong>{t.hoursLabel}</strong>{t.hours}</div></li>
+            <li>
+              <span className={styles.icon}>✦</span>
+              <div>
+                <strong>{t.hoursLabel}</strong>
+                {Array.isArray(t.hours)
+                  ? t.hours.map((line, i) => <span key={i}>{line}</span>)
+                  : t.hours}
+              </div>
+            </li>
             <li><span className={styles.icon}>✦</span><div><strong>{t.phoneLabel}</strong><a href={`tel:${PHONE_DISPLAY}`}>{PHONE_DISPLAY}</a></div></li>
           </ul>
           <div className={styles.map}>
@@ -198,20 +244,31 @@ export default function Booking({ t }) {
                 const i = t.svcOptions.indexOf(svc)
                 return i >= 0 ? parsePrice(t.svcPrices[i]) : null
               }).filter(Boolean)
-              const totalMin = totals.reduce((s, p) => s + p.min, 0)
-              const totalMax = totals.reduce((s, p) => s + p.max, 0)
+              const multiplier = saturday ? 1.3 : 1
+              const totalMin = Math.round(totals.reduce((s, p) => s + p.min, 0) * multiplier)
+              const totalMax = Math.round(totals.reduce((s, p) => s + p.max, 0) * multiplier)
               const totalStr = totalMin === totalMax ? `₪ ${totalMin}` : `₪ ${totalMin}–${totalMax}`
               return (
                 <div className={styles.priceBreakdown}>
                   {selectedServices.map((svc, i) => {
                     const idx = t.svcOptions.indexOf(svc)
+                    const base = idx >= 0 ? parsePrice(t.svcPrices[idx]) : null
+                    const displayPrice = base
+                      ? (saturday ? applyWeekendSurcharge(base) : t.svcPrices[idx])
+                      : ''
                     return (
                       <div key={i} className={styles.priceRow}>
                         <span>{svc}</span>
-                        <span>{idx >= 0 ? t.svcPrices[idx] : ''}</span>
+                        <span>{displayPrice}</span>
                       </div>
                     )
                   })}
+                  {saturday && (
+                    <div className={styles.priceRow}>
+                      <span>{t.saturdayFee}</span>
+                      <span>+30%</span>
+                    </div>
+                  )}
                   <div className={styles.priceTotal}>
                     <span>{t.fTotal}</span>
                     <span>{totalStr}</span>
@@ -234,7 +291,13 @@ export default function Booking({ t }) {
               </div>
               <div className={styles.group}>
                 <label className={styles.fieldLabel}>{t.fTime}</label>
-                <select className={styles.input} name="time" required defaultValue="">
+                <select
+                  className={styles.input}
+                  name="time"
+                  required={!closedDay}
+                  disabled={closedDay}
+                  defaultValue=""
+                >
                   <option value="" disabled>--:--</option>
                   {slotsWithState().map(({ slot, past }) => (
                     <option key={slot} value={slot} disabled={past} style={past ? { color: '#666' } : {}}>
@@ -244,12 +307,19 @@ export default function Booking({ t }) {
                 </select>
               </div>
             </div>
+            {closedDay && selectedDate && (
+              <div className={styles.closedMsg}>{t.closedMsg}</div>
+            )}
+            {saturday && selectedDate && (
+              <div className={styles.saturdayMsg}>{t.saturdayMsg}</div>
+            )}
             <div className={styles.group}>
               <label className={styles.fieldLabel}>{t.fNote}</label>
               <textarea className={styles.input} name="note" rows={3} placeholder={t.fNotePlaceholder} />
             </div>
             <button
               type="submit"
+              disabled={closedDay}
               className={`${styles.submit} ${submitted ? styles.success : ''}`}
             >
               {submitted ? t.successMsg : t.fSubmit}
