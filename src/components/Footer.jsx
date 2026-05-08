@@ -10,7 +10,7 @@ export default function Footer({ t }) {
       </div>
       <footer className={styles.footer}>
         <span className={styles.logo}>{t.logoName}</span>
-        <p className={styles.copy}>{t.footerCopy}</p>
+        <p className={styles.copy}>© {new Date().getFullYear()} {t.footerCopy}</p>
         <ul className={styles.links}>
           <li><a href="#services">{t.navServices}</a></li>
           <li><a href="#about">{t.navAbout}</a></li>

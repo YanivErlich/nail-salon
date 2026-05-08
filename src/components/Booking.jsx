@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import useReveal from '../hooks/useReveal'
 import styles from './Booking.module.css'
+import { PHONE_DISPLAY, WHATSAPP_URL } from '../constants'
 
 const parsePrice = (str) => {
   const parts = str.replace('₪', '').trim().split('–').map(n => parseInt(n.trim()))
@@ -96,7 +97,7 @@ export default function Booking({ t }) {
       note ? `\n📝 Примечание: ${note}` : null,
     ].filter(Boolean).join('\n')
 
-    window.open(`https://wa.me/972543288188?text=${encodeURIComponent(msg)}`, '_blank')
+    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, '_blank')
 
     setSubmitted(true)
     setTimeout(() => { setSubmitted(false); e.target.reset(); setSelectedServices([]) }, 4000)
@@ -112,12 +113,12 @@ export default function Booking({ t }) {
           <ul className={styles.contacts}>
             <li><span className={styles.icon}>✦</span><div><strong>{t.addrLabel}</strong>{t.address}</div></li>
             <li><span className={styles.icon}>✦</span><div><strong>{t.hoursLabel}</strong>{t.hours}</div></li>
-            <li><span className={styles.icon}>✦</span><div><strong>{t.phoneLabel}</strong>0543288188</div></li>
+            <li><span className={styles.icon}>✦</span><div><strong>{t.phoneLabel}</strong><a href={`tel:${PHONE_DISPLAY}`}>{PHONE_DISPLAY}</a></div></li>
           </ul>
           <div className={styles.map}>
             <iframe
               title="Salon location"
-              src="https://maps.google.com/maps?q=Trumpeldor+Street+46+Haifa+Israel&output=embed&z=16"
+              src="https://maps.google.com/maps?q=46+Trumpeldor+St,+Haifa,+Israel&output=embed&z=17"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />

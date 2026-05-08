@@ -96,7 +96,7 @@ export default function Services({ t }) {
       </div>
 
       <div className={styles.dots}>
-        {Array.from({ length: DOT_MAX + 1 }).map((_, i) => (
+        {Array.from({ length: slideMax + 1 }).map((_, i) => (
           <button
             key={i}
             className={`${styles.dot} ${i === index ? styles.dotActive : ''}`}

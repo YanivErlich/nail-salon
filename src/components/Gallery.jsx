@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import useReveal from '../hooks/useReveal'
 import styles from './Gallery.module.css'
 
@@ -22,6 +22,7 @@ export default function Gallery({ t }) {
   const headerRef = useReveal()
   const gridRef = useReveal(100)
   const [lightbox, setLightbox] = useState(null)
+  const touchStartX = useRef(null)
 
   useEffect(() => {
     const onKey = (e) => {
@@ -64,7 +65,21 @@ export default function Gallery({ t }) {
       </div>
 
       {lightbox !== null && (
-        <div className={styles.lightbox} onClick={() => setLightbox(null)}>
+        <div
+          className={styles.lightbox}
+          onClick={() => setLightbox(null)}
+          onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+          onTouchEnd={e => {
+            if (touchStartX.current === null) return
+            const delta = e.changedTouches[0].clientX - touchStartX.current
+            if (Math.abs(delta) >= 50) {
+              setLightbox(i => delta < 0
+                ? (i + 1) % photos.length
+                : (i - 1 + photos.length) % photos.length)
+            }
+            touchStartX.current = null
+          }}
+        >
           <button className={styles.lbClose} onClick={() => setLightbox(null)} aria-label="Close">✕</button>
           <button
             className={`${styles.lbArrow} ${styles.lbPrev}`}
