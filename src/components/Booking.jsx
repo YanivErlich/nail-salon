@@ -120,20 +120,21 @@ export default function Booking({ t }) {
     const totalMax = Math.round(totals.reduce((s, p) => s + p.max, 0) * multiplier)
     const totalStr = totalMin === totalMax ? `₪ ${totalMin}` : `₪ ${totalMin}–${totalMax}`
 
-    const msg = [
-      `היי פולינה! 👋 אני רוצה לקבוע תור:`,
-      ``,
-      `👤 שם: ${name}`,
-      `📱 טלפון: ${phone}`,
-      `📅 תאריך: ${formattedDate}`,
-      `🕐 שעה: ${time}`,
-      ``,
-      `💅 שירותים:`,
+    const lines = [
+      '\u{1F44B} היי פולינה! אני רוצה לקבוע תור:',
+      '',
+      `\u{1F464} שם: ${name}`,
+      `\u{1F4F1} טלפון: ${phone}`,
+      `\u{1F4C5} תאריך: ${formattedDate}`,
+      `\u{1F550} שעה: ${time}`,
+      '',
+      '\u{1F485} שירותים:',
       ...pricedServices,
-      saturday ? `⚠️ שבת: תוספת 30%` : null,
-      `💰 סה״כ: ${totalStr}`,
-      note ? `\n📝 הערה: ${note}` : null,
-    ].filter(Boolean).join('\n')
+      saturday ? '⚠️ שבת: תוספת 30%' : null,
+      `\u{1F4B0} סה״כ: ${totalStr}`,
+      note ? `\n\u{1F4DD} הערה: ${note}` : null,
+    ]
+    const msg = lines.filter(Boolean).join('\n')
 
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, '_blank')
 
