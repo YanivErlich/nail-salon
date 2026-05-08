@@ -25,6 +25,8 @@
   font-size: 0.76rem; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--rose-light); font-weight: 400;
 }
+.contacts a { color: inherit; text-decoration: none; }
+.contacts a:hover { color: var(--rose-light); }
 
 
 .map {

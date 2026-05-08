@@ -172,6 +172,10 @@
 :global([dir="rtl"]) .sidebar.open {
   transform: translateX(0);
 }
+:global([dir="rtl"]) .menuBtn {
+  grid-column: 3;
+  justify-self: end;
+}
 .sidebarHeader {
   display: flex;
   justify-content: flex-end;
@@ -225,12 +229,15 @@
 
 @media (max-width: 768px) {
   .nav {
+    grid-template-columns: auto 1fr auto;
     padding: 1rem 1.25rem;
   }
   .menuBtn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    grid-column: 1;
+    justify-self: start;
   }
   .right {
     display: none;
