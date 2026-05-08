@@ -13,7 +13,10 @@ const DEFAULT = {
 export default function Accessibility({ t }) {
   const [open, setOpen] = useState(false)
   const [opts, setOpts] = useState(DEFAULT)
+  const [pos, setPos] = useState(null)
   const panelRef = useRef(null)
+  const widgetRef = useRef(null)
+  const drag = useRef({ active: false, startX: 0, startY: 0, elemLeft: 0, elemTop: 0, moved: false })
 
   useEffect(() => {
     const html = document.documentElement
@@ -31,17 +34,67 @@ export default function Accessibility({ t }) {
     return () => document.removeEventListener('keydown', onKey)
   }, [])
 
+  useEffect(() => {
+    const onMove = (e) => {
+      if (!drag.current.active) return
+      const point = e.touches ? e.touches[0] : e
+      const dx = point.clientX - drag.current.startX
+      const dy = point.clientY - drag.current.startY
+      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) drag.current.moved = true
+      const w = widgetRef.current?.offsetWidth || 46
+      const h = widgetRef.current?.offsetHeight || 46
+      const top = Math.max(0, Math.min(window.innerHeight - h, drag.current.elemTop + dy))
+      setPos({ top })
+      if (e.touches) e.preventDefault()
+    }
+    const onUp = () => { drag.current.active = false }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+    window.addEventListener('touchmove', onMove, { passive: false })
+    window.addEventListener('touchend', onUp)
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+      window.removeEventListener('touchmove', onMove)
+      window.removeEventListener('touchend', onUp)
+    }
+  }, [])
+
+  const onDragStart = (e) => {
+    const point = e.touches ? e.touches[0] : e
+    const rect = widgetRef.current.getBoundingClientRect()
+    drag.current = {
+      active: true,
+      startX: point.clientX,
+      startY: point.clientY,
+      elemLeft: rect.left,
+      elemTop: rect.top,
+      moved: false,
+    }
+  }
+
+  const onClick = () => {
+    if (drag.current.moved) { drag.current.moved = false; return }
+    setOpen(o => !o)
+  }
+
   const toggle = (key) => setOpts(o => ({ ...o, [key]: !o[key] }))
   const changeFont = (delta) => setOpts(o => ({ ...o, fontSize: Math.max(-2, Math.min(4, o.fontSize + delta)) }))
   const reset = () => { setOpts(DEFAULT); document.documentElement.style.removeProperty('--a11y-font-scale') }
 
   const isDefault = JSON.stringify(opts) === JSON.stringify(DEFAULT)
 
+  const widgetStyle = pos
+    ? { top: pos.top, transform: 'none' }
+    : {}
+
   return (
-    <div className={styles.widget} aria-label={t.a11yTitle}>
+    <div className={styles.widget} ref={widgetRef} aria-label={t.a11yTitle} style={widgetStyle}>
       <button
         className={styles.trigger}
-        onClick={() => setOpen(o => !o)}
+        onMouseDown={onDragStart}
+        onTouchStart={onDragStart}
+        onClick={onClick}
         aria-expanded={open}
         aria-label={t.a11yTitle}
       >

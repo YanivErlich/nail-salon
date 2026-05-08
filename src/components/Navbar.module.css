@@ -175,6 +175,7 @@
 :global([dir="rtl"]) .menuBtn {
   grid-column: 3;
   justify-self: end;
+  align-self: center;
 }
 .sidebarHeader {
   display: flex;
@@ -253,8 +254,12 @@
   .logoSlogan {
     font-size: 0.54rem;
   }
-  :global([dir="rtl"]) .logo {
-    transform: translateY(-6px);
+  :global([dir="rtl"]) .menuBtn {
+    position: absolute;
+    top: 50%;
+    right: 1.25rem;
+    transform: translateY(-50%);
+    grid-column: unset;
   }
   :global([dir="rtl"]) .logoName {
     font-size: 1.5rem;

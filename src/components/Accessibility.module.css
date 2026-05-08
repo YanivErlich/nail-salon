@@ -14,13 +14,15 @@
   border: none;
   border-radius: 10px 0 0 10px;
   color: var(--white);
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.25s, width 0.2s;
   box-shadow: -2px 0 12px rgba(0,0,0,0.3);
 }
+.trigger:active { cursor: grabbing; }
 .trigger svg { width: 22px; height: 22px; }
 .trigger:hover { background: var(--mauve-mid); width: 50px; }
 
