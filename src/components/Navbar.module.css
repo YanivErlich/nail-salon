@@ -229,7 +229,7 @@
 
 @media (max-width: 768px) {
   .nav {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 44px 1fr 44px;
     padding: 1rem 1.25rem;
   }
   .menuBtn {
