@@ -34,7 +34,7 @@ const translations = {
     test3Text: 'Incredible artistry and such a calm, welcoming atmosphere. Highly recommend.', test3Name: '— Yael Mizrahi',
     bookLabel: 'Appointments', bookTitle: 'Book Your Session',
     bookSub: "Ready to treat yourself? Fill out the form and we'll confirm your appointment within a few hours. We can't wait to welcome you.",
-    followLabel: 'Follow Us',
+    followLabel: 'Follow Us', wazeLabel: 'Waze', wazeNav: 'Click for directions',
     addrLabel: 'Address', address: 'Trumpeldor Street 46, Haifa',
     hoursLabel: 'Hours',
     hours: [
@@ -107,7 +107,7 @@ const translations = {
     test3Text: 'Невероятное мастерство и такая спокойная, тёплая атмосфера. Очень рекомендую.', test3Name: '— Яэль Мизрахи',
     bookLabel: 'Запись', bookTitle: 'Запишитесь на сеанс',
     bookSub: 'Готовы побаловать себя? Заполните форму — мы подтвердим запись в течение нескольких часов.',
-    followLabel: 'Подписывайтесь',
+    followLabel: 'Подписывайтесь', wazeLabel: 'Waze', wazeNav: 'Нажмите для маршрута',
     addrLabel: 'Адрес', address: 'улица Трумпельдора 46, Хайфа',
     hoursLabel: 'Часы работы',
     hours: [
@@ -180,7 +180,7 @@ const translations = {
     test3Text: 'אמנות מדהימה ואווירה כל כך רגועה ומזמינה. ממליצה בחום.', test3Name: '— יעל מזרחי',
     bookLabel: 'תיאום תור', bookTitle: 'קבעי את הסשן שלך',
     bookSub: 'מוכנה לפנק את עצמך? מלאי את הטופס ונאשר את התור תוך מספר שעות. מחכים לך!',
-    followLabel: 'עקבו אחרינו',
+    followLabel: 'עקבו אחרינו', wazeLabel: 'Waze', wazeNav: 'להגעה לחץ',
     addrLabel: 'כתובת', address: 'רחוב טרומפלדור 46 חיפה',
     hoursLabel: 'שעות פעילות',
     hours: [

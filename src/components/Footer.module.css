@@ -31,29 +31,17 @@
 }
 .links a:hover { color: var(--rose-light); }
 
-.socialIcon { display: inline-flex; width: 1rem; height: 1rem; margin-right: 0.55rem; fill: currentColor; }
+.socialIcon { display: block; width: 1.2rem; height: 1.2rem; fill: currentColor; }
 
-.socials a { display: inline-flex; align-items: center; gap: 0.55rem;
-  font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--cream-muted); text-decoration: none; padding: 0.85rem 1rem;
-  border: 1px solid rgba(240,179,192,0.18); border-radius: 999px;
-  transition: border-color 0.3s, color 0.3s, background 0.3s;
-}
+.socials { display: flex; gap: 1rem; align-items: center; }
 
-.socials a:hover {
-  color: var(--white);
-  border-color: var(--rose-light);
-  background: rgba(240,179,192,0.08);
-}
-
-.socials {
-  display: flex; gap: 1.4rem; align-items: center;
-}
 .socials a {
-  font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--cream-muted); text-decoration: none; padding: 0.75rem 1rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--cream-muted); text-decoration: none;
+  padding: 0.65rem;
   border: 1px solid rgba(240,179,192,0.18);
-  border-radius: 999px; transition: border-color 0.3s, color 0.3s, background 0.3s;
+  border-radius: 999px;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
 }
 .socials a:hover {
   color: var(--white);

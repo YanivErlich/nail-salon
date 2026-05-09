@@ -59,6 +59,7 @@ export default function Gallery({ t }) {
   const [fading, setFading] = useState(false)
   const [displayed, setDisplayed] = useState(ALL_PHOTOS.filter(p => p.cat === 'manicure'))
   const [lightbox, setLightbox] = useState(null)
+  const [loaded, setLoaded] = useState({})
   const touchStartX = useRef(null)
 
   const handleCategoryChange = (cat) => {
@@ -68,6 +69,7 @@ export default function Gallery({ t }) {
     setTimeout(() => {
       setActiveCategory(cat)
       setDisplayed(ALL_PHOTOS.filter(p => p.cat === cat))
+      setLoaded({})
       setFading(false)
     }, 220)
   }
@@ -120,13 +122,19 @@ export default function Gallery({ t }) {
           {displayed.map((p, i) => (
             <div
               key={`${activeCategory}-${i}`}
-              className={`${styles.item} ${styles.skeleton}`}
+              className={`${styles.item} ${!loaded[i] ? styles.skeleton : ''}`}
               onClick={() => setLightbox(i)}
               role="button"
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && setLightbox(i)}
             >
-              <img src={p.src} alt="" loading="lazy" />
+              <img
+                src={p.src}
+                alt=""
+                loading="lazy"
+                className={loaded[i] ? styles.imgLoaded : styles.imgHidden}
+                onLoad={() => setLoaded(prev => ({ ...prev, [i]: true }))}
+              />
               <div className={styles.overlay}>
                 <span className={styles.zoomIcon}>⊕</span>
               </div>
@@ -152,21 +160,7 @@ export default function Gallery({ t }) {
           }}
         >
           <button className={styles.lbClose} onClick={() => setLightbox(null)} aria-label="Close">✕</button>
-          <button
-            className={styles.lbDelete}
-            onClick={e => {
-              e.stopPropagation()
-              const src = displayed[lightbox]?.src
-              const filename = src?.split('/').pop()
-              const next = displayed.filter((_, i) => i !== lightbox)
-              setDisplayed(next)
-              setLightbox(next.length === 0 ? null : Math.min(lightbox, next.length - 1))
-              console.log(`Removed: ${filename}`)
-            }}
-            aria-label="Remove photo"
-            title="Remove from gallery"
-          >🗑</button>
-          <button
+<button
             className={`${styles.lbArrow} ${styles.lbPrev}`}
             onClick={e => { e.stopPropagation(); setLightbox(i => (i - 1 + displayed.length) % displayed.length) }}
             aria-label="Previous"

@@ -29,16 +29,29 @@
 .contacts a:hover { color: var(--rose-light); }
 
 
-.map {
+.wazeBtn {
   margin-top: 2rem;
-  border: 1px solid rgba(240,179,192,0.18);
-  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid rgba(240,179,192,0.25);
+  border-radius: 999px;
+  color: var(--cream-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
 }
-.map iframe {
-  width: 100%;
-  height: 220px;
-  border: none;
-  display: block;
+.wazeBtn:hover {
+  border-color: var(--rose-light);
+  color: var(--white);
+  background: rgba(240,179,192,0.08);
+}
+.wazeIcon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
   filter: grayscale(30%) invert(5%);
 }
 

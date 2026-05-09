@@ -162,14 +162,23 @@ export default function Booking({ t }) {
             </li>
             <li><span className={styles.icon}>✦</span><div><strong>{t.phoneLabel}</strong><a href={`tel:${PHONE_DISPLAY}`}>{PHONE_DISPLAY}</a></div></li>
           </ul>
-          <div className={styles.map}>
-            <iframe
-              title="Salon location"
-              src="https://maps.google.com/maps?q=46+Trumpeldor+St,+Haifa,+Israel&output=embed&z=17"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
+          <a
+            className={styles.wazeBtn}
+            href="https://waze.com/ul?ll=32.8156,34.9894&navigate=yes"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <svg className={styles.wazeIcon} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="50" cy="50" r="50" fill="#33CCFF"/>
+              <path fill="white" d="M50 13 C31 13 16 26 16 42 C16 57 27 68 41 71 L37 83 L50 73 C50.3 73 50.7 73 51 73 C69 73 84 58 84 42 C84 26 69 13 50 13Z"/>
+              <circle cx="40" cy="39" r="5" fill="#1a1a1a"/>
+              <circle cx="61" cy="39" r="5" fill="#1a1a1a"/>
+              <path d="M37 53 Q50 65 63 53" stroke="#1a1a1a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <circle cx="37" cy="78" r="8" fill="#1a1a1a"/>
+              <circle cx="62" cy="78" r="8" fill="#1a1a1a"/>
+            </svg>
+            {t.wazeNav}
+          </a>
         </div>
 
         <div ref={formRef}>
