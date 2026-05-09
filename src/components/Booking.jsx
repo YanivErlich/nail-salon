@@ -164,11 +164,11 @@ export default function Booking({ t }) {
           </ul>
           <a
             className={styles.wazeBtn}
-            href="https://waze.com/ul?ll=32.8156,34.9894&navigate=yes"
+            href="https://waze.com/ul?q=Trumpeldor+46+Haifa+Israel&navigate=yes"
             onClick={(e) => {
               e.preventDefault()
-              const appUrl = 'waze://ul?ll=32.8156,34.9894&navigate=yes'
-              const webUrl = 'https://waze.com/ul?ll=32.8156,34.9894&navigate=yes'
+              const appUrl = 'waze://ul?q=Trumpeldor+46+Haifa+Israel&navigate=yes'
+              const webUrl = 'https://waze.com/ul?q=Trumpeldor+46+Haifa+Israel&navigate=yes'
               const timer = setTimeout(() => { window.location.href = webUrl }, 1500)
               const onHide = () => {
                 if (document.hidden) { clearTimeout(timer); document.removeEventListener('visibilitychange', onHide) }
