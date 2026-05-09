@@ -165,8 +165,17 @@ export default function Booking({ t }) {
           <a
             className={styles.wazeBtn}
             href="https://waze.com/ul?ll=32.8156,34.9894&navigate=yes"
-            target="_blank"
-            rel="noreferrer noopener"
+            onClick={(e) => {
+              e.preventDefault()
+              const appUrl = 'waze://ul?ll=32.8156,34.9894&navigate=yes'
+              const webUrl = 'https://waze.com/ul?ll=32.8156,34.9894&navigate=yes'
+              const timer = setTimeout(() => { window.location.href = webUrl }, 1500)
+              const onHide = () => {
+                if (document.hidden) { clearTimeout(timer); document.removeEventListener('visibilitychange', onHide) }
+              }
+              document.addEventListener('visibilitychange', onHide)
+              window.location.href = appUrl
+            }}
           >
             <svg className={styles.wazeIcon} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <circle cx="50" cy="50" r="50" fill="#33CCFF"/>
